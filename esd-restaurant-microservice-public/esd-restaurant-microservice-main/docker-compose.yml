@@ -1,0 +1,169 @@
+version: "3.8"
+
+volumes:
+  rabbitmq_data:
+
+networks:
+  default:
+    external:
+      name: kong_kong-net
+
+services:
+
+  # RabbitMQ: The messaging broker   
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: esd-rabbit
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes: 
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  ### Payment and Order Services ###
+  # Menu Microservice
+  menu:
+    build:
+      context: ./
+      dockerfile: menu.Dockerfile
+    image: lunarcadamer/menu:esd
+    hostname: menu
+    restart: always
+    environment:
+      # dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/book
+      PYTHONUNBUFFERED: 1
+    # ports:
+    #   - "5000:5000"
+
+  # Order Microservice
+  order:
+    build:
+      context: ./
+      dockerfile: order.Dockerfile
+    image: lunarcadamer/order:esd
+    restart: always
+    environment:
+      # dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/book
+      PYTHONUNBUFFERED: 1
+    # ports:
+    #   - "5001:5001"
+
+  # Payment Microservice
+  payment:
+    build:
+      context: ./
+      dockerfile: payment.Dockerfile
+    image: lunarcadamer/payment:esd
+    hostname: payment
+    restart: always
+    environment:
+      # place_an_order_URL: http://localhost:5200
+      place_an_order_URL: http://localhost:8000/api/v1
+      PYTHONUNBUFFERED: 1
+    # ports:
+    #   - "4242:4242"
+
+  #Email Notification Microservice
+  notification_email:
+    build:
+      context: ./
+      dockerfile: notification_email.Dockerfile
+    image: lunarcadamer/notification_email:esd
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      PYTHONUNBUFFERED: 1
+
+  # Place_an_order Complex Microservice
+  place_an_order:
+    build:
+      context: ./
+      dockerfile: place_an_order.Dockerfile
+    image: lunarcadamer/place_an_order:esd
+    hostname: placeorder
+    restart: always
+    depends_on:
+      - menu
+      - order
+      - rabbitmq
+    environment:
+      # dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/book
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      order_URL: http://order:5001/order
+      payment_URL: http://localhost:8000/api/v1/stripePay
+      PYTHONUNBUFFERED: 1
+    # ports:
+    #   - "5200:5200"
+
+  ### Queue Services ###
+
+  # Queue microservice
+  queue_s:
+    build:
+      context: ./
+      dockerfile: queue_s.Dockerfile
+    image: lunarcadamer/queue_s:esd
+    hostname: queueservice
+    restart: always
+    environment:
+      PYTHONUNBUFFERED: 1
+    # ports:
+    #   - "5003:5003"
+
+  # Get Queue Microservice
+  get_queue:
+    build:
+      context: ./
+      dockerfile: get_queue.Dockerfile
+    image: lunarcadamer/get_queue:esd
+    hostname: getQueue
+    restart: always
+    depends_on:
+      - queue_s
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      queue_URL: http://queueservice:5003/queue_s/generateQueue
+      PYTHONUNBUFFERED: 1
+    # ports:
+    #   - "5100:5100"
+
+  # Notify Next Microservice
+  notify_next:
+    build:
+      context: ./
+      dockerfile: notifyNext.Dockerfile
+    image: lunarcadamer/notify_next:esd
+    hostname: notifynext
+    restart: always
+    depends_on:
+      - queue_s
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      notifyNextPerson_URL: http://queueservice:5003/queue_s/nextQueue
+      retrieveAllRecords_URL: http://queueservice:5003/queue_s/retrieveAllRecords
+      PYTHONUNBUFFERED: 1
+    # ports:
+    #   - "5004:5004"
+
+  # SMS Notification Microservice
+  notification:
+    build:
+      context: ./
+      dockerfile: notification.Dockerfile
+    image: lunarcadamer/notification:esd
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      PYTHONUNBUFFERED: 1

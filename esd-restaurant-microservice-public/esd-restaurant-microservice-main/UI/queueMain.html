@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- Axios CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+    <title>Register Queue</title>
+    <link rel="icon" type="image/x-icon" href="../Images/favicon.ico">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Top Navigation Bar -->
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" id="eightHomeBtn">Eight</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="queueMain.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Menu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- <div class="container-fluid">
+        <div class="row">
+          <div class="col text-center">
+              <Transition name="fade" appear>
+                <p><img src="Images/logo.png" class="img" alt="..."></p>
+              </Transition>
+            </div>
+          </div> 
+        </div>
+      </div>  -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col text-center">
+              <Transition duration="550" name="nested" appear>
+                <div class="outer">
+                  <img src="../Images/logo.png" class="img" alt="...">
+                  <div class="inner">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="d-grid gap-2 col-5 mx-auto">
+                          <button onclick="window.location.href='queue2.html'" class="button-57 btn btn-dark" type="button"><span class="text">Queue</span><span style="padding-top:8px;">Click here</span></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Transition>
+            </div>
+          </div> 
+        </div>
+      </div> 
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+
+    <script>
+      Vue.createApp({
+        data() {
+          return {};
+        },
+          
+        methods: {}
+
+      }).mount("#app");
+    </script>
+  </body>
+
+  <style>
+    @import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css";
+
+    /* External Font Family */
+    @font-face {
+      font-family: homeLogoFont;
+      src: url(../fonts/Pacifico-Regular.ttf);
+
+    }
+
+    /* External Font Family */
+    @font-face {
+      font-family: queueBtnFont;
+      src: url(../fonts/Lobster-Regular.ttf);
+
+    }
+
+    /* Background color */
+    body {
+      background-color: #0A0B0C;
+    }
+
+    /* Navigation bar color */
+    nav {
+      background-color: #0A0B0C;
+    }
+
+    /* Navigation Bar Home Button Font */
+    #eightHomeBtn {
+      font-family: homeLogoFont;
+      font-size: medium;
+    }
+
+    .inner {
+      min-height: 100px;
+      margin-top: 100px;
+      color: white;
+      font-size: x-large;
+      font-family: queueBtnFont;
+    }
+
+    .outer {
+      margin-top: 100px;
+      margin-bottom: 60px;
+    }
+      
+    .nested-enter-active, .nested-leave-active {
+      transition: all 1s ease;
+    }
+    /* delay leave of parent element */
+    .nested-leave-active {
+      transition-delay: 0.25s;
+    }
+
+    .nested-enter-from,
+    .nested-leave-to {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+
+    /* we can also transition nested elements using nested selectors */
+    .nested-enter-active .inner,
+    .nested-leave-active .inner { 
+      transition: all 0.35s ease-in-out;
+    }
+    /* delay enter of nested element */
+    .nested-enter-active .inner {
+      transition-delay: 0.25s;
+    }
+
+    .nested-enter-from .inner,
+    .nested-leave-to .inner {
+      transform: translateX(30px);
+      /*
+        Hack around a Chrome 96 bug in handling nested opacity transitions.
+        This is not needed in other browsers or Chrome 99+ where the bug
+        has been fixed.
+      */
+      opacity: 0.001;
+    }
+
+    /* CSS */
+    .button-57 {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background-color: transparent;
+      border: red;
+      display: inline-block;
+      border-radius: 48px;
+      font-size: 25px;
+      line-height: 15px;
+      padding: 18px 18px 17px;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      margin-top: 60px;
+    }
+
+    .button-57 span:first-child {
+      position: relative;
+      transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+      z-index: 10;
+    }
+
+    .button-57 span:last-child {
+      color: black;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
+      z-index: 100;
+      white-space: nowrap;
+      opacity: 0;
+      top: 50%;
+      left: 50%;
+      transform: translateY(225%) translateX(-50%);
+      height: 14px;
+      line-height: 13px;
+    }
+
+    .button-57:after {
+      content: "";
+      position: absolute;
+      bottom: -50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      transform-origin: bottom center;
+      transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+      transform: skewY(9.3deg) scaleY(0);
+      z-index: 50;
+    }
+
+    .button-57:hover:after {
+      transform-origin: bottom center;
+      transform: skewY(9.3deg) scaleY(2);
+    }
+
+    .button-57:hover span:last-child {
+      transform: translateX(-50%) translateY(-100%);
+      opacity: 1;
+      transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+    }
+
+    
+
+  </style>
+</html>

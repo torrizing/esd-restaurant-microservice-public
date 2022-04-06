@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+	<link rel="icon" type="image/x-icon" href="../Images/favicon.ico">
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- Axios CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+	<!-- Icon -->
+	<link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+	<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"
+  ></script>
+    <!-- Bootstrap -->
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous"
+  />
+	<!-- jQuery import -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<div id="app">
+		<!-- NavBar -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+			<div class="container-fluid" style="display: flex;">
+				<div>
+					<span class="badge rounded-pill bg-dark text-light align-items-start">No. {{queueID}}</span>
+				</div>
+				<div>
+					<!-- <a class="navbar-brand" href="#">
+						<img src="../Images/logo.png" alt="" width="25" height="25">
+					</a> -->
+					<span id="navLogo" class="text-light align-items-center">Eight Sushi</span>
+				</div>
+				<div class="align-items-end">
+					<button @click="getTotalBill()" class="btn-dark" style="padding-top:0px; margin-left:5px; border:none" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+						<i class="bi bi-receipt me-2" style="color: white;"></i>
+						<span class="badge rounded-pill text-light" style="padding:0px">Bill</span>
+					</button>
+					<!-- <a style="color: white">
+						<i class="bi bi-bag" class="align-text-top"></i>
+						<span style="margin-top:50px">Bill</span>
+					</a> -->
+				</div>
+			</div>
+		</nav>
+
+		<!-- Carousell -->
+		<div id="carouselExampleIndicators" class="carousel slide mb-3" data-bs-ride="carousel">
+			<!-- <div class="carousel-indicators">
+				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+			</div> -->
+			<div class="carousel-inner">
+			  <div class="carousel-item active" data-bs-interval="5000">
+				<img src="../Images/menu/SushiA (1).jpg" class="d-block w-100" style="height:280px" alt="...">
+			  </div>
+			  <div class="carousel-item" data-bs-interval="5000">
+				<img src="https://images.unsplash.com/photo-1607301405826-fac796c5d7c3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1807&q=80" style="height:280px" class="d-block w-100" alt="...">
+			  </div>
+			  <div class="carousel-item">
+				<img src="https://images.unsplash.com/photo-1562158074-d49fbeffcc91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" style="height:280px" class="d-block w-100" alt="...">
+			  </div>
+			</div>
+			<!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+			  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			  <span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+			  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			  <span class="visually-hidden">Next</span>
+			</button> -->
+		</div>
+
+		<!-- Header below carousell -->
+		<div style="width:90%; margin:auto;" class="mb-3" >
+			<h4>Popular Items</h4>
+		</div>
+
+		<!-- Total Bill Modal -->
+		<!-- modal-dialog-scrollable -->
+		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title" id="staticBackdropLabel"> Order history </h5>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<table class="table table-hover table-bordered">
+						<thead >
+							<tr>
+								<th>
+									Item
+								</th>
+
+								<th>
+									Qty
+								</th>
+								
+								<th>
+									Price
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="eachItem in bill_obj_list" :key="eachItem.itemID">
+								<td> {{eachItem.itemName}} </td>
+								<td> {{eachItem.total_qty}} </td>
+								<td> $ {{(eachItem.itemPrice * eachItem.total_qty).toFixed(2)}} </td>
+							</tr>
+	
+							<tr>
+								<th colspan="2" style="text-align:right">  Grand Total  </th>
+								<td colspan="1" style="text-align:left">  $ {{ parseFloat(totalAmt).toFixed(2) }}  </td>
+							</tr>
+	
+							<tr>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="d-grid gap-2">
+					<!-- <form action="http://localhost:5200/pay" method="POST"> -->
+					<form action="http://localhost:8000/api/v1/pay" method="POST">
+						<input type="hidden" :value="queueID" name="queueID">
+						<input type="hidden" :value="totalAmt" name="totalAmt">
+						<div class="d-grid gap-2">
+							<button type="submit" id="paymentButton" type="button" class="btn btn-danger" disabled style="padding:10px">Checkout <i class="bi bi-credit-card"></i></button>
+						</div>						
+					</form>
+				</div>
+			  </div>
+			</div>
+		</div>
+
+		<!-- Place order offcanvas -->
+		<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" style="height:600px; border-top-left-radius:10px; border-top-right-radius:10px">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasBottomLabel">Order summary</h5>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body small">
+			<div>
+				<div v-if="cart_obj_list.length > 0">
+					<ul class="list-group">
+						<li v-for="item in cart_obj_list" class="list-group-item d-flex justify-content-between align-items-start">
+							<div class="ms-2 me-auto">
+								<div class="fw-bold">
+									<span>{{item.itemName}}</span><span> - ${{(item.quantity * item.price).toFixed(2)}}</span>
+								</div>
+								
+								<div class="input-group" style="padding-top:10px">
+									<div class="input-group-prepend">
+										<span class="input-group-text" style="background-color:transparent">Qty</span>
+									</div>
+									<input class="form-control text-center fw-bold" type="number" v-model="item.quantity" @change="updateCart(item.itemID, item.quantity)" min="1" oninput="validity.valid||(value='');">
+									<div class="col-7"></div>
+								</div>
+
+							  </div>
+							  <h6><i @click="removeFromCart(item.itemID)" class="bi bi-trash-fill"></i></h6>
+						</li>
+					</ul>
+					<div class="d-grid gap-2" style="margin-top: 15px;">
+						<button class="btn btn-danger" data-bs-dismiss="offcanvas" @click="placeOrder()" v-if="cart_obj_list.length>0">
+							Place Order
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+		<div style="width:90%; margin:auto;">
+			<div class="row">
+				<div v-for="item_obj in item_obj_list" id="menu_items" class="col-6">
+					<item_card :item_obj="item_obj" ></item_card>
+				</div>
+			</div>
+		</div>
+		<div v-if="cart_obj_list.length > 0" style="margin-top: 70px;"></div>
+		<footer v-if="cart_obj_list.length > 0" style="background-color: white; padding-top: 10px; border-top:1px solid rgb(233, 233, 233)">
+			<div class="container" style="border-radius: 15px;">
+				<div>
+					<div class="d-grid gap-2 my-2">
+						<button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" class="btn btn-danger" style="display: flex; justify-content: space-between;">
+							<div>
+								<span class="badge rounded-pill bg-light text-dark">{{cart_obj_list.length}}</span>
+							</div>
+							<div>
+								View cart
+							</div>
+							<div>
+								<i class="bi bi-bag"></i>
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+		</footer>
+		
+
+		
+	</div>
+
+
+<script>
+// import payment from "./payment.html"
+
+let app = Vue.createApp({
+    data() {
+      	return {
+			// To store results from the database and populate the menu UI
+			"item_obj_list": [],
+			// for storing items that the user adds to the cart
+			"cart_obj_list": [],
+			"queueID": "",
+			numPlaceOrder: 0,
+			bill_obj_list: [],
+			totalAmt: 0,
+			userEmail: ""
+      	};
+    },
+    created: function() {
+      	this.getMenuItems();
+		this.createCart();
+		this.getNumPlaceOrder();
+		this.getQueueID();
+    },
+    methods: {
+      	// getMenuItems() {
+        // 	console.log("--- Fetching Menu Items ---");
+
+        // 	// calls for the menu microservice
+        // 	url = "http://localhost:5000/menu";
+
+		// 	axios.get(url)
+		// 		.then((response) => {
+		// 			console.log("In response")
+
+		// 			console.log(response)
+		// 			this.item_obj_list = response.data.data.menuItems;
+
+		// 			// console.log(this.item_obj_list);
+
+		// 		})
+		// 		.catch((error) => {
+		// 			console.log("In error")
+		// 			console.log(error);
+				
+		// 		});
+      	// },
+
+		getMenuItems() {
+        	console.log("--- Fetching Menu Items ---");
+
+        	// calls for the menu microservice
+        	url = "http://localhost:8000/api/v1/menu";
+
+			axios.get(url)
+				.then((response) => {
+					console.log("In response")
+
+					console.log(response)
+					this.item_obj_list = response.data.data.menuItems;
+
+					// console.log(this.item_obj_list);
+
+				})
+				.catch((error) => {
+					console.log("In error")
+					console.log(error);
+				
+				});
+      	},
+
+		getNumPlaceOrder(){
+			if( sessionStorage.getItem("numPlaceOrder") == null ) {
+				sessionStorage.setItem("numPlaceOrder", 0);
+				this.numPlaceOrder = 0
+			}
+			else {
+				this.numPlaceOrder = sessionStorage.getItem("numPlaceOrder");
+			}
+		},
+
+		getQueueID(){
+			// console.log(this.queueID)
+
+			const queryString = window.location.search;
+			console.log(queryString);
+			const urlParams = new URLSearchParams(queryString);
+			const url_queueID = urlParams.get('queueID')
+			console.log(url_queueID)
+
+			this.queueID = url_queueID
+		},
+
+		setQueueID(){
+			console.log(this.queueID)
+			if( sessionStorage.getItem("queueID") == null ) {
+				sessionStorage.setItem("queueID", this.queueID);
+			}
+			else {
+				sessionStorage.setItem("queueID", this.queueID);
+			}
+		},
+
+		placeOrder(){
+        	console.log("--- In placeOrder() ---");
+			console.log(this.cart_obj_list)
+
+			if(this.queueID != ""){
+				// var url = "http://localhost:5200/placeOrder";
+				var url = "http://localhost:8000/api/v1/placeOrder";
+
+				axios.post(url, {
+					'queueID': this.queueID,
+					"cart_item": this.cart_obj_list
+				})
+					.then((response) => {
+						console.log("In response")
+
+						console.log(response)
+						if( sessionStorage.getItem("numPlaceOrder") == null ){
+							sessionStorage.setItem("numPlaceOrder", 1);
+						}
+						else {
+							let sess_numPlaceOrder = sessionStorage.getItem("numPlaceOrder");
+							let new_numPlaceOrder = sess_numPlaceOrder + 1;
+
+							this.numPlaceOrder = new_numPlaceOrder;
+							sessionStorage.setItem("numPlaceOrder", new_numPlaceOrder);
+
+						}
+						// Upon Order has been placed successfully 
+						// Reset the cart 
+						this.emptyCart()
+
+						// Notifies customer 
+						alert('You have successfully placed your items to cart!')
+
+					})
+					.catch((error) => {
+						console.log("In error")
+						console.log(error);
+					});
+			}
+			else{
+				alert("Queue number cannot be empty!")
+			}
+
+			
+		},
+		
+		createCart() {
+			console.log("--- Creating Cart ---")
+			if( sessionStorage.getItem("cart") == null ) {
+				let cart = {};
+        		cart.items = [];
+
+        		sessionStorage.setItem("cart", JSON.stringify(cart));
+			}
+			else {
+				let cart = sessionStorage.getItem("cart");
+				let cartObject = JSON.parse(cart);
+
+				this.cart_obj_list = cartObject.items;
+			}
+		},
+
+		refreshCart() {
+			let cart = sessionStorage.getItem("cart");
+			let cartObject = JSON.parse(cart);
+
+			this.cart_obj_list = cartObject.items;
+		},
+
+		removeFromCart(itemID) {
+			let cart = sessionStorage.getItem("cart");
+			let cartObject = JSON.parse(cart);
+			let cartCopy = cartObject;
+			let items = cartCopy.items;
+			let index = 0;
+
+			for(itemObj of items) {
+				if (itemObj.itemID == itemID) {
+					break
+				}
+				else {
+					index += 1;
+				}
+			}
+
+			items.splice(index, 1)
+			sessionStorage.setItem("cart", JSON.stringify(cartCopy));
+			this.refreshCart()
+			
+		},
+		
+		updateCart(itemID, quantity) {
+			let cart = sessionStorage.getItem("cart");
+			let cartObject = JSON.parse(cart);
+			let cartCopy = cartObject;
+			let items = cartCopy.items;
+			let index = 0;
+
+			for(itemObj of items) {
+				if (itemObj.itemID == itemID) {
+					itemObj.quantity = quantity
+				}
+			}
+
+			sessionStorage.setItem("cart", JSON.stringify(cartCopy));
+			this.refreshCart()
+		},
+
+		emptyCart() {
+			console.log("--- Emptying Cart ---")
+			if( sessionStorage.getItem("cart") != null ) {
+				let cart = {};
+        		cart.items = [];
+
+        		sessionStorage.setItem("cart", JSON.stringify(cart));
+			}
+			this.refreshCart()
+		},
+
+		getTotalBill(){
+			// disable payment button
+			document.getElementById('paymentButton').disabled = true; 
+
+			// var url = "http://localhost:5200/getTotalBill"
+			var url = "http://localhost:8000/api/v1/getTotalBill"
+
+			axios.post(url, {
+				'queueID': this.queueID
+			})
+			.then((response) => {
+				console.log("In response")
+
+				console.log(response)
+				
+				var response_items = JSON.stringify(response.data.data.items)
+				console.log(response_items)
+				console.log(typeof response_items)
+
+				if( sessionStorage.getItem("bill_obj_list") == null ){
+					sessionStorage.setItem("bill_obj_list", response_items);
+					this.bill_obj_list = JSON.parse(sessionStorage.getItem("bill_obj_list"))
+				}
+				else {
+					sessionStorage.removeItem("bill_obj_list")
+					sessionStorage.setItem("bill_obj_list", response_items);
+					this.bill_obj_list = JSON.parse(sessionStorage.getItem("bill_obj_list"))
+				}
+				
+				var response_totalPrice = response.data.data.totalPrice
+				if( sessionStorage.getItem("totalAmt") == null ){
+					sessionStorage.setItem("totalAmt", response_totalPrice);
+					this.totalAmt = sessionStorage.getItem("totalAmt")
+				}
+				else {
+					sessionStorage.setItem("totalAmt", response_totalPrice);
+					this.totalAmt = sessionStorage.getItem("totalAmt")
+				}
+
+				// Enable button 
+				if (this.totalAmt != 0) {
+					document.getElementById('paymentButton').disabled = false; 
+					console.log(document.getElementById('paymentButton'))
+				}
+				
+				console.log(this.bill_obj_list);
+				console.log(this.totalAmt)
+
+			})
+			.catch((error) => {
+				console.log("In error")
+				console.log(error);
+			});
+		},
+
+		sendEmail(){
+			// var url = "http://localhost:5200/sendEmail"
+			var url = "http://localhost:8000/api/v1/sendEmail"
+			// url += this.userEmail
+
+			console.log(this.totalAmt)
+			console.log(this.bill_obj_list)
+
+			axios.post(url, {
+				'userEmail': this.userEmail,
+				'totalAmt': this.totalAmt,
+				'bill_obj_list': this.bill_obj_list
+			})
+			.then((response) => {
+				console.log("In response")
+
+				console.log(response)
+
+			})
+			.catch((error) => {
+				console.log("In error")
+				console.log(error);
+			});
+
+		}
+    }
+  })
+
+app.component('item_card', {
+	props: ["item_obj"],
+	data() {
+		return {
+			// itemStock: this.item_obj.quantity,
+			available: this.item_obj.available,
+			itemID: this.item_obj.itemID,
+			itemName: this.item_obj.itemName,
+			price: this.item_obj.price,
+			itemImageUrl: this.item_obj.itemImageUrl,
+			itemIDModal: this.item_obj.itemID + 'Modal',
+			quantity: 1
+		}
+	},
+	template: `<!-- Add a card -->
+				<div class='col-12 col-md-6 col-lg-4 col-xl-3'>
+					<div class="card h-100 mb-3" style="border-radius:10px;" data-bs-toggle="offcanvas" :data-bs-target="'#' + itemIDModal" aria-controls="offcanvasBottom">
+						<img :id='itemID' class='card-img-top' style='height: 100px;' alt='item_pic' :src='itemImageUrl'>
+						<div class="card-body d-flex flex-column">
+							<h6 class="card-title" style="line-height: 1.5em;
+							font-size:11px;
+							overflow: hidden;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+							width: 100%;">
+								{{itemName}}
+							</h6>
+							<h6 class="card-subtitle">$\{{price.toFixed(2)}}</h6>
+						</div>
+					</div>
+				</div>
+
+				<!-- OffCanvas -->
+				<div style="border-top-left-radius:10px; border-top-right-radius:10px" class="offcanvas offcanvas-bottom" tabindex="-1" :id="itemIDModal" aria-labelledby="offcanvasBottomLabel" style="height: 54vh">
+					<div class="offcanvas-header">
+						<h5 class="modal-title" id="offcanvasBottomLabel">{{itemID}}: {{itemName}}</h5>
+						<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="offcanvas-body">
+						<form class="row">
+							<img :id='itemID' style='height: 200px;' alt='Location_pic' :src='itemImageUrl'>
+							<h6 for="quantity" class="form-label mt-3 mb-4">Quantity</h6>
+							<div class="col-3" align="center">
+							</div>
+							<div class="col-2" align="center">
+								<button @click="minusQty" type="button" class="btn btn-outline-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+								</svg></button>
+							</div>
+							<div class="col-2" align="center">
+								<input style="border:none; font-weight:bold" type="number" class="form-control text-center" id="quantity" v-model="quantity" min="1" oninput="validity.valid||(value='');">
+							</div>
+							<div class="col-2" align="center">
+								<button @click="addQty" type="button" class="btn btn-outline-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+								</svg></button>
+							</div>
+							<div class="col-3" align="center">
+							</div>
+							<div class="col-12 mt-4">
+								<div class="d-grid gap-2">
+									<button v-if="item_obj.available" style="border-radius:10px" data-bs-dismiss="offcanvas" type="button" class="btn btn-danger" @click=addToCart>Add to Cart - $\{{(price*quantity).toFixed(2)}}</button>
+									<button v-else style="border-radius:10px" data-bs-dismiss="offcanvas" type="button" class="btn btn-danger" disabled>Out of Stock</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>`,
+	methods: {
+		addQty() {
+			this.quantity++
+		},
+
+		minusQty() {
+			if (this.quantity > 1) {
+				this.quantity--
+			}
+		},
+
+		refreshCart() {
+			this.$parent.refreshCart();
+		},
+		addToCart() {
+			// console.log(this.itemID)
+			// console.log(this.quantity)
+			let item = {
+				itemID: this.itemID,
+				itemName: this.itemName,
+				quantity: this.quantity,
+				price: this.price
+			}
+			
+			let cart = sessionStorage.getItem("cart");
+			let cartObject = JSON.parse(cart);
+			let cartCopy = cartObject;
+			let items = cartCopy.items;
+			let item_exists = 0;
+			// console.log(items)
+			if (this.quantity > 0) {
+				if (items.length > 0) {
+					for (itemObj of items) {
+						if (itemObj.itemID== item.itemID) {
+							itemObj.quantity += item.quantity
+							item_exists = 1;
+						}
+					}
+					if (item_exists != 1) {
+						items.push(item)
+					}
+				} else {
+					items.push(item)
+				}
+			}
+			// Reset quantity
+			this.quantity = 1;
+			// Add cart to session storage.
+			sessionStorage.setItem("cart", JSON.stringify(cartCopy));
+			// console.log(document.cookie);
+			this.refreshCart()
+			console.log('success')
+
+		}
+	}
+})
+
+app.mount('#app')
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+<style>
+	@font-face {
+      font-family: homeLogoFont;
+      src: url(../fonts/Pacifico-Regular.ttf);
+    }
+
+	#navLogo {
+		font-family: homeLogoFont;
+	}
+
+	footer {
+		position: fixed;
+		height: 70px;
+		bottom: 0;
+		width: 100%;
+	}
+</style>

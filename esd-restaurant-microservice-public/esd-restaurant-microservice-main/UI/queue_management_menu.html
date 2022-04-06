@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu Management Portal</title>
+    <link rel="icon" type="image/x-icon" href="../Images/favicon.ico">
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- Axios CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <!-- AJAX import -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- Dashboard -->
+      <div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+          <!-- Vertical Navbar -->
+          <nav class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg" id="navbarVertical">
+              <div class="container-fluid">
+                  <!-- Toggler --> <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button> <!-- Brand --> <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#"> <img alt="..." src="../Images/logo.png" class="avatar avatar-sm me-2"> <span style="font-family: homeLogoFont;">Eight Sushi</span> </a> <!-- User menu (mobile) -->
+                  <div class="navbar-user d-lg-none">
+                      <!-- Dropdown -->
+                      <div class="dropdown">
+                          <!-- Toggle --> <a href="#" id="sidebarAvatar" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <div class="avatar-parent-child"> <img alt="Image Placeholder" src="https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar- rounded-circle"> <span class="avatar-child avatar-badge bg-success"></span> </div>
+                          </a> <!-- Menu -->
+                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarAvatar"> <a href="#" class="dropdown-item">Profile</a> <a href="#" class="dropdown-item">Settings</a> <a href="#" class="dropdown-item">Billing</a>
+                              <hr class="dropdown-divider"> <a href="#" class="dropdown-item">Logout</a> </div>
+                      </div>
+                  </div> <!-- Collapse -->
+                  <div class="collapse navbar-collapse" id="sidebarCollapse">
+                      <!-- Navigation -->
+                      <ul class="navbar-nav">
+                          <li class="nav-item"> <a class="nav-link" href="#"> <i class="bi bi-house"></i> Dashboard </a> </li>
+                          <li class="nav-item"> <a class="nav-link" href="#"> <i class="bi bi-bar-chart"></i> Analitycs </a> </li>
+                          <li class="nav-item"> <a class="nav-link" href="#"> <i class="bi bi-chat"></i> Messages <span class="badge bg-soft-primary text-primary rounded-pill d-inline-flex align-items-center ms-auto">6</span> </a> </li>
+                          <li class="nav-item"> <a class="nav-link" href="#"> <i class="bi bi-bookmarks"></i> Collections </a> </li>
+                          <li class="nav-item"> <a class="nav-link" href="#"> <i class="bi bi-people"></i> Users </a> </li>
+                      </ul> <!-- Divider -->
+                      <hr class="navbar-divider my-5 opacity-20"> <!-- Navigation -->
+                      <div class="mt-auto"></div> <!-- User (md) -->
+                      <ul class="navbar-nav">
+                          <li class="nav-item"> <a class="nav-link" href="#"> <i class="bi bi-person-square"></i> Account </a> </li>
+                          <li class="nav-item"> <a class="nav-link" href="#"> <i class="bi bi-box-arrow-left"></i> Logout </a> </li>
+                      </ul>
+                  </div>
+              </div>
+          </nav> <!-- Main content -->
+          <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+              <!-- Header -->
+              <header class="bg-surface-primary border-bottom pt-6">
+                  <div class="container-fluid">
+                      <div class="mb-npx">
+                          <div class="row align-items-center">
+                              <div class="col-sm-6 col-12 mb-4 mb-sm-0">
+                                  <!-- Title -->
+                                  <h1 class="h2 mb-0 ls-tight">Menu</h1>
+                              </div> 
+                          </div> <!-- Nav -->
+                          <ul class="nav nav-tabs mt-4 overflow-x border-0">
+                              <li class="nav-item "> <a href="queue_management_overview.html" class="nav-link font-regular">Overview</a> </li>
+                              <li class="nav-item"> <a href="queue_management_queue.html" class="nav-link font-regular">Queue Management</a> </li>
+                              <li class="nav-item"> <a href="#" class="nav-link active">Menu Management</a> </li>
+                          </ul>
+                      </div>
+                  </div>
+              </header> <!-- Main -->
+
+              <div class="py-5 bg-surface-secondary">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-header">
+                          <div class="row justify-content-between">
+                            <div class="col-9" style="display:flex">
+                              <h4 class="mt-3" style="margin-right: 15px;">Menu List</h4>
+                              <button class="btn btn-neutral btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-plus"></i> Add new item</button>
+                            </div>
+                            <div class="col-3">
+                              <!-- Actions -->
+                              <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Search..."
+                              v-model="searchResult"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-nowrap" >
+                              <thead class="table-light" >
+                                <tr>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Availability</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                              </thead>
+                                <tbody style="border-top: 0;">
+                                    <tr v-for="record in filteredList">
+                                        <td > <a class="text-heading font-semibold"> <img :src="record.itemImageUrl" style="width:90px; height:90px" class="img-thumbnail" alt="..."> </a> </td>
+                                        
+                                        <td> <a class="text-current">{{record.itemID}}</a> </td>
+                                        <td> <a class="text-current" >{{record.itemName}}</a> </td>
+                                        <td> <a class="text-current">S$ {{record.price}}</a> </td>
+                                        <td v-if="record.available"> <span class="badge bg-soft-success text-success">Available</span> </td>
+                                        <td v-else > <span class="badge bg-soft-danger text-danger">Out of Stock</span> </td>
+                                        <td>
+                                          <div class="mx-n1"> 
+                                            <button class="btn btn-neutral btn-sm" style="margin-right: 5px;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightEdit" 
+                                            @click="editItemModal(record)"
+                                            aria-controls="offcanvasRight"><i class="bi bi-pencil-square">
+                                            </i> </button>
+
+                                            <button class="btn btn-primary btn-sm" style="margin-right: 5px;" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            @click="deleteItemModal(record.itemID)"
+                                            ><i
+                                            class="bi bi-trash-fill"> 
+                                            </i> </button>
+                                          </div>
+                                      </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Add new item -->
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                              <div class="offcanvas-header">
+                                <h5 id="offcanvasRightLabel">Add new item</h5>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                              </div>
+                              <div class="offcanvas-body" style="border-top:1px solid rgb(228, 228, 228)">
+                                  <!-- Form to let them edit -->
+                                  <div>
+                                      <div class="row">
+                                          <!-- Item ID -->
+                                          <div class="col-4">
+                                              <label for="exampleFormControlInput1" class="form-label">Item Code</label>
+                                              <input class="form-control" id="New_itemID" v-model="newMenuObject.itemID">
+                                          </div>
+
+                                          <!-- Item Name -->
+                                          <div class="col-8">
+                                              <label for="exampleFormControlInput1" class="form-label">Item Name</label>
+                                              <input class="form-control" id="New_itemName" v-model="newMenuObject.itemName">
+                                          </div>
+                                      </div>
+
+                                      <div class="row my-5">
+                                          <!-- Image URL -->
+                                          <div class="col-12">
+                                              <label for="exampleFormControlInput1" class="form-label">Image URL</label>
+                                              <input class="form-control" id="New_imageURL" v-model="newMenuObject.itemImageUrl">
+                                          </div>
+                                      </div>
+
+                                      <div class="row">
+                                          <!-- Price -->
+                                          <div class="col-6">
+                                              <label for="exampleFormControlInput1" class="form-label">Price</label>
+                                              <input class="form-control" id="New_price" v-model="newMenuObject.itemPrice">
+                                          </div>  
+
+                                          <!-- Availability -->
+                                          <div class="col-6">
+                                              <label for="exampleFormControlInput1" class="form-label">Availability</label>
+                                              <select class="form-select" id="New_availability" v-model="newMenuObject.available">
+                                                  <option value="true">Available</option>
+                                                  <option value="false">Out of stock</option>
+                                              </select>
+                                          </div>  
+                                      </div>
+                                  </div>
+                              </div>
+                                
+                                <!-- Buttons -->
+                                <div class="card-footer">
+                                  <div class="row">
+                                    <div class="col-6">
+                                      <div class="d-grid gap-2">
+                                          <button
+                                          type="button"
+                                          class="btn btn-neutral"
+                                          data-bs-dismiss="offcanvas"
+                                        >
+                                          Cancel
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <div class="col-6">
+                                      <div class="d-grid gap-2">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas" @click="createNewItem()">
+                                          Create
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+
+                              </div>
+                              </div>
+                            </div>
+
+                            <!-- Edit item -->
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRightEdit" aria-labelledby="offcanvasRightLabel">
+                              <div class="offcanvas-header">
+                                <h5 id="offcanvasRightLabel">Edit item</h5>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                              </div>
+                              <div class="offcanvas-body" style="border-top:1px solid rgb(228, 228, 228)">
+                                  <!-- Form to let them edit -->
+                                  <div>
+                                      <div class="row">
+                                          <!-- Item ID -->
+                                          <div class="col-4">
+                                              <label for="exampleFormControlInput1" class="form-label">Item Code</label>
+                                              <input class="form-control" id="itemID" v-model="newEditObject.editItemID" readonly>
+                                          </div>
+
+                                          <!-- Item Name -->
+                                          <div class="col-8">
+                                              <label for="exampleFormControlInput1" class="form-label">Item Name</label>
+                                              <input class="form-control" id="itemName" v-model="newEditObject.editItemName">
+                                          </div>
+                                      </div>
+
+                                      <div class="row my-5">
+                                          <!-- Image URL -->
+                                          <div class="col-12">
+                                              <label for="exampleFormControlInput1" class="form-label">Image URL</label>
+                                              <input class="form-control" id="imageURL" v-model="newEditObject.editImageURL">
+                                          </div>
+                                      </div>
+
+                                      <div class="row">
+                                          <!-- Price -->
+                                          <div class="col-6">
+                                              <label for="exampleFormControlInput1" class="form-label">Price</label>
+                                              <input class="form-control" id="price" v-model="newEditObject.editPrice">
+                                          </div>  
+
+                                          <!-- Availability -->
+                                          <div class="col-6">
+                                            <label for="exampleFormControlInput1" class="form-label">Availability</label>
+                                            <select class="form-select" id="availability" v-model="newEditObject.availability">
+                                                <option value="true">Available</option>
+                                                <option value="false">Out of stock</option>
+                                            </select>
+                                          </div>  
+                                      </div>
+                                  </div>
+                              </div>
+                                
+                                <!-- Buttons -->
+                                <div class="card-footer">
+                                  <div class="row">
+                                    <div class="col-6">
+                                      <div class="d-grid gap-2">
+                                          <button
+                                          type="button"
+                                          class="btn btn-neutral"
+                                          data-bs-dismiss="offcanvas"
+                                        >
+                                          Cancel
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <div class="col-6">
+                                      <div class="d-grid gap-2">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas" @click="editChangesConfirm()">
+                                          Save changes
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                </div>
+
+                              </div>
+                            </div>
+
+                            <!-- Deleting Modal -->
+                            <div
+                            class="modal fade"
+                            id="deleteModal"
+                            tabindex="-1"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true"
+                            >
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <!-- Header -->
+                                  <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">
+                                    Delete item ({{deleteItemID}})
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+
+                                <!-- Body -->
+                              <div class="modal-body">
+                                  <h4>
+                                      Are you sure you want to delete item?
+                                  </h4>
+                              </div>
+                                
+                                <!-- Buttons -->
+                                <div class="modal-footer">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deleteItem()">
+                                    Confirm
+                                  </button>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let app = Vue.createApp({
+    data() {
+      return {
+        item_obj_list: [],
+
+        searchResult: "",
+
+        tempItemObject: null, 
+
+        newEditObject: {
+            editItemID: "",
+            editItemName:"",
+            editImageURL:"",
+            editPrice:"",
+            availability:""
+        },
+
+        newMenuObject: {
+            itemID: "",
+            itemName:"",
+            itemImageUrl:"",
+            itemPrice:"",
+            available:"true"
+        },
+        
+        deleteItemID : ""
+      };
+    },
+    created: function () {
+      this.getMenuItems();
+    },
+    computed: {
+
+      filteredList(){
+        return this.item_obj_list.filter(item => {
+          var lowerCaseItems = item.itemName.toLowerCase()
+          var lowerCaseSearch = this.searchResult.toLowerCase()
+          return lowerCaseItems.includes(lowerCaseSearch)
+        })
+      }
+
+    },
+    methods: {
+      getMenuItems() {
+        console.log("--- Fetching Menu Items ---");
+        // calls for the menu microservice
+        // url = "http://localhost:5000/menu";
+        url = "http://localhost:8000/api/v1/menu";
+
+        axios
+          .get(url)
+          .then((response) => {
+            console.log("In response");
+            console.log(response);
+            this.item_obj_list = response.data.data.menuItems;
+            // for filtering
+            this.master_obj_list = response.data.data.menuItems;
+          })
+          .catch((error) => {
+            console.log("In error");
+            console.log(error);
+          });
+      },
+      
+
+      addItemModal() {
+        console.log("---inside addItemModal function---");
+        console.log(this.newMenuObject)
+      },
+
+      deleteItemModal(id) {
+        console.log("---inside deleteItemModal function---");
+        console.log(id);
+        this.deleteItemID = id; 
+      },
+
+      editItemModal(item) {
+        console.log("---inside editItemModal function---");
+        
+        // Will be used to compare 
+        this.tempItemObject = item;
+
+        // Initialize it to the edit item 
+        this.newEditObject.editItemID = item.itemID
+        this.newEditObject.editItemName = item.itemName
+        this.newEditObject.editImageURL = item.itemImageUrl
+        this.newEditObject.editPrice = item.price
+        this.newEditObject.availability = item.available
+
+        console.log(this.newEditObject)
+
+      },
+
+      editChangesConfirm(){
+            console.log("---inside editItem function---");
+
+            console.log(this.newEditObject)
+
+            let that = this;
+
+            const s = JSON.stringify(this.newEditObject) 
+
+            $.ajax({
+            // url:"http://localhost:5000/menu/editItems",
+            url:"http://localhost:8000/api/v1/editMenuItems",
+            type:"PUT",
+            headers: {
+              "apikey" : "srcbb2Pv5DJPfJwmkhbtxGngKEXaF85s"
+            },
+            contentType: "application/json",
+            data: JSON.stringify(s),
+
+            success: function(data){
+              // reset the table 
+                that.getMenuItems();
+              // give a confirmation to the user
+                alert(data.message);
+            },
+            
+            error: function(data) {
+                console.log(data.responseText);
+            }
+        });
+
+
+      },
+
+      resetCreateForm(){
+        this.getMenuItems();
+        this.newMenuObject = {
+                                itemID: "",
+                                itemName:"",
+                                itemImageUrl:"",
+                                itemPrice:"",
+                                available:"true"
+                            }
+      },
+      
+      createNewItem(){ 
+            console.log("---inside createNewItem function---");
+
+            const s = JSON.stringify(this.newMenuObject)
+
+            let that = this; 
+
+            $.ajax({
+                // url:"http://localhost:5000/menu/createNewItem",
+                url:"http://localhost:8000/api/v1/createNewItem",
+                type:"POST",
+                headers: {
+                  "apikey" : "srcbb2Pv5DJPfJwmkhbtxGngKEXaF85s"
+                },
+                contentType: "application/json",
+                data: JSON.stringify(s),
+
+                success: function(data){
+                    alert(data.message);
+                    // reset table
+                    that.getMenuItems();
+                    // initialize form back to empty 
+                    that.newMenuObject = {
+                                            itemID: "",
+                                            itemName:"",
+                                            itemImageUrl:"",
+                                            itemPrice:"",
+                                            available:"true"
+                                        }
+                },
+                  
+                error: function(data) {
+                    console.log(data.responseText)
+                }
+              });
+      },
+      
+      deleteItem() {
+        console.log("---inside deleteItem function---");
+
+        let that = this;
+
+        const s = JSON.stringify({ itemID:this.deleteItemID })
+
+        $.ajax({
+            // url:"http://localhost:5000/menu/deleteItem",
+            url:"http://localhost:8000/api/v1/deleteItem",
+            type:"POST",
+            headers: {
+              "apikey" : "srcbb2Pv5DJPfJwmkhbtxGngKEXaF85s"
+            },
+            contentType: "application/json",
+            data: JSON.stringify(s),
+
+            success: function(data){
+                that.getMenuItems();
+                alert(data.message);
+            },
+            
+            error: function(data) {
+                console.log(data.responseText);
+            }
+        });
+
+
+      }
+    },
+  });
+
+  app.mount("#app");
+</script>
+
+<style>
+  @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+  @font-face {
+      font-family: homeLogoFont;
+      src: url(../fonts/Pacifico-Regular.ttf);
+
+    }
+</style>
